@@ -29,7 +29,8 @@
   },
   "scripts": {
     "dev": "node --watch-path=./src dev.mjs",
-    "build": "hohoro-experimental && bun run compile",
+    "build": "hohoro-experimental && bun run compile:temp",
+    "compile:temp": "true",
     "compile": "bun run compile:rsc && bun run compile:server",
     "compile:rsc": "esbuild ./src/rsc.ts --bundle --minify --format=esm --outfile=./dist/rsc.mjs --conditions=react-server",
     "compile:server": "esbuild ./src/server.ts --bundle --minify --format=esm --outfile=./dist/server.mjs",
