@@ -30,6 +30,8 @@ for (let i = 2; i < process.argv.length; i++) {
 
 let { name, type } = args;
 
+console.log(args);
+
 if (!name && !type) {
   throw new Error("Missing required arguments: --name and --type");
 }
@@ -49,7 +51,7 @@ if (type !== "package" && type !== "app") {
 
 if (type === "package") {
   console.log(`Generating a new package: ${name}`);
-  await $`bun turbo gen workspace --name ${name} --copy template-library --type package --destination packages/${name}`;
+  await $`bunx turbo gen workspace --name ${name} --copy template-library --type package --destination packages/${name}`;
 
   console.log(`Replacing template-library with ${name}`);
 
@@ -62,7 +64,7 @@ if (type === "package") {
 
 if (type === "app") {
   console.log(`Generating a new app: ${name}`);
-  await $`bun turbo gen workspace --name ${name} --copy template-app --type app --destination apps/${name}`;
+  await $`bunx turbo gen workspace --name ${name} --copy template-app --type app --destination apps/${name}`;
 
   console.log(`Replacing template-app with ${name}`);
 
