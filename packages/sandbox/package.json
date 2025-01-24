@@ -1,0 +1,46 @@
+{
+  "name": "sandbox",
+  "version": "0.0.1",
+  "description": "TODO",
+  "homepage": "TODO",
+  "author": {
+    "name": "TODO",
+    "email": "TODO"
+  },
+  "repository": {
+    "type": "git",
+    "url": "TODO",
+    "directory": "packages/sandbox"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "type": "module",
+  "devDependencies": {
+    "@swc/cli": "0.3.10",
+    "@swc/core": "1.4.2",
+    "@types/bun": "1.1.11",
+    "esbuild": "^0.24.2",
+    "hohoro": "0.3.0",
+    "typescript": "5.4.5"
+  },
+  "dependencies": {
+    "@matthamlin/react-server-dom-esm": "0.0.0-experimental-de1eaa26-20250124",
+    "react": "0.0.0-experimental-de1eaa26-20250124",
+    "react-dom": "0.0.0-experimental-de1eaa26-20250124"
+  },
+  "scripts": {
+    "dev": "node --watch-path=./src dev.mjs",
+    "build": "bun ./build.ts",
+    "esbuild:build": "esbuild src/index.tsx --bundle --outfile=dist/index.mjs --format=esm --target=node23 --platform=node --conditions=react-server",
+    "old:build": "hohoro-experimental",
+    "type-check": "tsc -p ./tsconfig.json",
+    "lint": "biome lint ./src/",
+    "test": "bun test",
+    "prepub": "bun run build && bun run type-check && bun run lint && bun run test",
+    "pub": "npm publish --access public"
+  }
+}
