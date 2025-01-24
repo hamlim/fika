@@ -4,3 +4,5 @@ await runBuild({
   rootDirectory: process.cwd(),
   logger: console,
 });
+
+// @todo do the two esbuild builds here too
