@@ -30,8 +30,6 @@ for (let i = 2; i < process.argv.length; i++) {
 
 let { name, type } = args;
 
-console.log(args);
-
 if (!name && !type) {
   throw new Error("Missing required arguments: --name and --type");
 }

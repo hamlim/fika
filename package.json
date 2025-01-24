@@ -1,6 +1,9 @@
 {
   "name": "root",
-  "workspaces": ["apps/*", "packages/*"],
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "private": true,
   "devDependencies": {
     "@turbo/gen": "2.3.4",
@@ -22,8 +25,8 @@
     "one-version:check": "one-version check",
     "knip": "knip"
   },
-  "packageManager": "bun@1.1.45",
+  "packageManager": "bun@1.2.0",
   "whare": {
-    "version": "ded18ba429ed09d6c77823a83c5d85dd1de48c7b"
+    "version": "b3595c269ca585da5c4c7fcbc3862126a9ada786"
   }
 }
