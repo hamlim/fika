@@ -150,7 +150,7 @@ export class Router {
     let pathChunks = url.pathname.split("/").filter(Boolean);
 
     // Try to find the most specific error route by progressively removing path segments
-    while (pathChunks.length >= 0) {
+    while (pathChunks.length > 0) {
       let currentPath = `/${pathChunks.join("/")}`;
 
       // Find an error route that matches the current path

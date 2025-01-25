@@ -107,7 +107,7 @@ export function collectRoutes({
           routeManifest.set(routePath, {
             $type: "not-found",
             routeType: "static",
-            rawPath: routePath.replace("/@not-found", ""),
+            rawPath: routePath.replace("@not-found", ""),
             filePath: relativeFilePath,
             type: getRouteType(relativeFilePath),
             params: [],

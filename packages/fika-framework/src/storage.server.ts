@@ -43,7 +43,7 @@ export function makeStorageMiddleware({
     }
 
     if (!route) {
-      return new Response("Not found", { status: 404 });
+      return new Response("[Fika Middleware] Not found", { status: 404 });
     }
 
     return await storage.run(

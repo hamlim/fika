@@ -8,7 +8,7 @@ export async function handler(context: Context): Promise<Response> {
   let { route, request, importMap, bootstrapModules } = getStore();
 
   if (!route) {
-    return new Response("Not found", { status: 404 });
+    return new Response("[Fika Handler] Not found", { status: 404 });
   }
 
   let resolvedModule = await route.mod();
