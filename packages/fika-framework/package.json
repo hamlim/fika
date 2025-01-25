@@ -36,6 +36,10 @@
     "./entry.client": {
       "import": "./dist/entry.client.js",
       "types": "./dist/entry.client.d.ts"
+    },
+    "./import-map-defaults": {
+      "import": "./dist/import-map-defaults.js",
+      "types": "./dist/import-map-defaults.d.ts"
     }
   },
   "files": ["dist", "CHANGELOG.md", "README.md"],
