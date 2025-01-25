@@ -2,6 +2,7 @@ import { existsSync } from "node:fs";
 import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { basename, dirname, extname, join as pathJoin } from "node:path";
 import process from "node:process";
+import * as esbuild from "esbuild";
 import fastGlob from "fast-glob";
 import oxc from "oxc-transform";
 
@@ -55,7 +56,9 @@ export function collectRoutes({
   let routeManifest = new Map<string, PartialRoute>();
 
   for (let file of routeFiles) {
-    let relativeFilePath = file.replace(rootDir, "");
+    let relativeFilePath = file
+      .replace(rootDir.replace(/\.\//, ""), "")
+      .replace(/(tsx|ts)/, "js");
     // strip src/ prefix and file extension to get route path
     let routePath = relativeFilePath
       .replace(/\.(route|page)\.(ts|tsx|js|jsx)$/, "")
@@ -171,14 +174,13 @@ export async function generate(options: {
       ${Object.entries(route)
         .map(([key, value]) => `${key}: ${JSON.stringify(value)}`)
         .join(",\n      ")},
-      mod: () => import("${pathJoin(process.cwd(), options.outDir, route.filePath)}")
+      mod: () => import(".${route.filePath}")
     }
   ],`,
     );
   }
   contents.push(`];`);
 
-  // await writeFile(destinationDir, contents.join("\n"));
   await writeFile(clientDestinationDir, contents.join("\n"));
 
   console.log("Wrote routes.gen.ts");
@@ -191,31 +193,42 @@ export async function build(options: {
   outDir: string;
   routes: Array<[string, PartialRoute]>;
 }): Promise<void> {
-  try {
-    await rm(pathJoin(process.cwd(), options.outDir), { recursive: true });
-  } catch {}
-
-  for (let [_, route] of options.routes) {
-    let srcPath = pathJoin(process.cwd(), options.rootDir, `${route.filePath}`);
-    let distPath = pathJoin(process.cwd(), options.outDir, `${route.filePath}`)
-      .replace(".ts", ".js")
-      .replace(".tsx", ".js")
-      .replace(".jsx", ".js");
-
+  let files = await fastGlob(
+    pathJoin(process.cwd(), options.rootDir, "**/*.{ts,tsx,js,jsx}"),
+  );
+  for (let file of files) {
+    let srcPath = file;
+    let distPath = file
+      .replace(
+        options.rootDir.replace(/\.\//, ""),
+        options.outDir.replace(/\.\//, ""),
+      )
+      .replace(/(tsx|ts)/, "js");
     let distDir = dirname(distPath);
-
     if (!existsSync(distDir)) {
       try {
         await mkdir(distDir, { recursive: true });
       } catch {}
     }
+    // if (srcPath.replace(extname(srcPath), "") === "entry.client") {
+    //   console.log("Building client entry");
 
-    let contents = await readFile(srcPath, "utf-8");
-
-    let { code } = oxc.transform(srcPath, contents);
-
+    // } else {
+    let { code } = oxc.transform(srcPath, await readFile(srcPath, "utf-8"));
     await writeFile(distPath, code);
+    // }
   }
+
+  // client entry
+  await esbuild.build({
+    external: ["react", "react-dom"],
+    entryPoints: ["@fika-ts/framework/entry.client"],
+    outfile: pathJoin(process.cwd(), options.outDir, "entry.client.js"),
+    bundle: true,
+    minify: true,
+    format: "esm",
+    target: "es2022",
+  });
 }
 
 export async function run(): Promise<void> {
@@ -268,6 +281,12 @@ export async function run(): Promise<void> {
   let projectRoot = args.projectRoot as string;
   let outDir = args.outDir as string;
 
+  try {
+    await rm(pathJoin(process.cwd(), outDir), { recursive: true });
+  } catch {}
+
+  await mkdir(outDir, { recursive: true });
+
   let routes = await generate({ rootDir: projectRoot, outDir });
 
   await build({
@@ -275,4 +294,6 @@ export async function run(): Promise<void> {
     outDir,
     routes,
   });
+
+  console.log("Done");
 }

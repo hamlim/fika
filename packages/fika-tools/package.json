@@ -30,6 +30,11 @@
     "@types/bun": "1.1.11",
     "typescript": "5.4.5"
   },
+  "dependencies": {
+    "esbuild": "0.24.2",
+    "oxc-transform": "0.48.0",
+    "fast-glob": "3.3.3"
+  },
   "scripts": {
     "dev": "node --watch-path=./src dev.mjs",
     "build": "hohoro-experimental",

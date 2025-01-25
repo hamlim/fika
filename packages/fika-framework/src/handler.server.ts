@@ -1,6 +1,6 @@
 import type { Context } from "hono";
 import { Fragment, createElement } from "react";
-import { renderToReadableStream } from "react-dom/server.browser";
+import { renderToReadableStream } from "react-dom/server.edge";
 import type { APIHandler, Page } from "./router";
 import { getStore } from "./storage.server";
 
