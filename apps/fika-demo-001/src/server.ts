@@ -1,7 +1,7 @@
 import { handler } from "@fika-ts/framework/handler.server";
 import { makeStorageMiddleware } from "@fika-ts/framework/storage.server";
 import { Hono } from "hono";
-import { routes } from "./routes.gen.mjs";
+import { routes } from "./routes.gen";
 
 let app = new Hono();
 
@@ -18,7 +18,7 @@ app.use(
         "#framework/storage": "/storage.client.js",
       },
     },
-    bootstrapModules: ["/routes.gen.mjs", "/entry.client.js"],
+    bootstrapModules: ["/routes.gen.js", "/entry.client.js"],
   }),
 );
 

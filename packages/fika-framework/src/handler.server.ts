@@ -1,5 +1,6 @@
 import type { Context } from "hono";
 import { createElement } from "react";
+// @ts-expect-error - react-dom/server.edge is not typed - for some reason
 import { renderToReadableStream } from "react-dom/server.edge";
 import type { APIHandler, Page } from "./router";
 import { getStore } from "./storage.server";

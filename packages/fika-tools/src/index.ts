@@ -148,8 +148,8 @@ export async function generate(options: {
 }): Promise<Array<[string, PartialRoute]>> {
   let clientDestinationDir = pathJoin(
     process.cwd(),
-    options.outDir,
-    "routes.gen.mjs",
+    options.rootDir,
+    "routes.gen.ts",
   );
 
   let routeFiles = await fastGlob(
@@ -159,14 +159,29 @@ export async function generate(options: {
   let routeManifest = collectRoutes({ routeFiles, rootDir: options.rootDir });
   console.log("Collected routes, writing manifest...");
 
+  // Currently, the router is "greedy", and will take the first match
+  // it finds, meaning it can sometimes accidentally match
+  // @not-found or @error routes.
+  // To fix this, we sort the routes by type, so that custom routes
+  // are always matched first.
+  let routeEntries = [...routeManifest.entries()].toSorted(
+    ([_, a], [__, b]) => {
+      if (a.$type === "custom" && b.$type !== "custom") {
+        return -1;
+      }
+      if (a.$type !== "custom" && b.$type === "custom") {
+        return 1;
+      }
+      return 0;
+    },
+  );
+
   let contents = [];
   contents.push(`/** Automatically Generated! */`);
-  contents.push(
-    `/* import type { Route } from "@fika-ts/framework/router"; */`,
-  );
+  contents.push(`import type { Route } from "@fika-ts/framework/router";`);
   contents.push(``);
-  contents.push(`export let routes/*: Array<[string, Route]>*/ = [`);
-  for (let [path, route] of routeManifest.entries()) {
+  contents.push(`export let routes: Array<[string, Route]> = [`);
+  for (let [path, route] of routeEntries) {
     contents.push(
       `  [
     ${JSON.stringify(path)},
@@ -182,8 +197,14 @@ export async function generate(options: {
   contents.push(`];`);
 
   contents.push(``);
+  contents.push(`declare global {`);
+  contents.push(`  interface Window {`);
+  contents.push(`    __fika_routes: Array<[string, Route]>;`);
+  contents.push(`  }`);
+  contents.push(`  var __fika_routes: Array<[string, Route]>;`);
+  contents.push(`}`);
   contents.push(`globalThis.__fika_routes = routes;`);
-
+  contents.push(``);
   await writeFile(clientDestinationDir, contents.join("\n"));
 
   console.log("Wrote routes.gen.ts");
