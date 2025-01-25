@@ -1,11 +1,11 @@
 import type { Context } from "hono";
-import { Fragment, createElement } from "react";
+import { createElement } from "react";
 import { renderToReadableStream } from "react-dom/server.edge";
 import type { APIHandler, Page } from "./router";
 import { getStore } from "./storage.server";
 
 export async function handler(context: Context): Promise<Response> {
-  let { route, routes, request, importMap, bootstrapModules } = getStore();
+  let { route, request, importMap, bootstrapModules } = getStore();
 
   if (!route) {
     return new Response("Not found", { status: 404 });
@@ -23,20 +23,12 @@ export async function handler(context: Context): Promise<Response> {
 
     let Component = resolvedModule.default as Page;
     let stream = await renderToReadableStream(
-      createElement(Fragment, null, [
-        createElement(Component, { key: "fika-page", request }),
-        createElement(
-          "script",
-          {
-            key: "fika-metadata",
-            type: "module",
-            id: "fika-metadata",
-          },
-          scriptContent,
-        ),
-      ]),
+      createElement(Component, {
+        request,
+      }),
       {
         bootstrapModules,
+        bootstrapScriptContent: scriptContent,
         importMap,
       },
     );

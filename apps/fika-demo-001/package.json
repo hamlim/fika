@@ -1,11 +1,12 @@
 {
   "name": "fika-demo-001",
+  "type": "module",
   "scripts": {
     "dev:tailwind": "bunx @tailwindcss/cli -i ./src/style.css -o ./dist/style.css --watch",
     "build": "bun run build:app && bun run build:tailwind",
     "build:tailwind": "bunx @tailwindcss/cli -i ./src/style.css -o ./dist/style.css",
     "build:app": "fika --projectRoot ./src --outDir ./dist",
-    "dev": "TODO - wrangler dev",
+    "wrangler:dev": "wrangler dev",
     "deploy": "wrangler deploy --minify"
   },
   "imports": {
@@ -19,7 +20,8 @@
   },
   "devDependencies": {
     "@cloudflare/workers-types": "4.20250109.0",
-    "wrangler": "3.101.0",
-    "@fika-ts/tools": "workspace:*"
+    "@fika-ts/tools": "workspace:*",
+    "@hono/node-server": "^1.13.7",
+    "wrangler": "3.101.0"
   }
 }

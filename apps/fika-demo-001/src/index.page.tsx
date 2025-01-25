@@ -3,8 +3,6 @@ import { getStore } from "#framework/storage";
 export default function IndexPage() {
   let store = getStore();
 
-  console.log(Object.keys(store));
-
   return (
     <html lang="en" className="h-full">
       <head>

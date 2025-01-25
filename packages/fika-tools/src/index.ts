@@ -228,17 +228,15 @@ export async function build(options: {
     target: "es2022",
   });
   // framework files
-  let { code } = oxc.transform(
-    pathJoin(process.cwd(), "@fika-ts/framework/storage.client"),
-    await readFile(
-      pathJoin(process.cwd(), "@fika-ts/framework/entry.client.ts"),
-      "utf-8",
-    ),
-  );
-  await writeFile(
-    pathJoin(process.cwd(), options.outDir, "entry.client.js"),
-    code,
-  );
+  await esbuild.build({
+    external: ["react", "react-dom"],
+    entryPoints: ["@fika-ts/framework/storage.client"],
+    outfile: pathJoin(process.cwd(), options.outDir, "storage.client.js"),
+    bundle: true,
+    minify: true,
+    format: "esm",
+    target: "es2022",
+  });
 }
 
 export async function run(): Promise<void> {
