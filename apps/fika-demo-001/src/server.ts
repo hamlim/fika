@@ -1,8 +1,12 @@
 import { handler } from "@fika-ts/framework/handler.server";
-import { importMapDefaults } from "@fika-ts/framework/import-map-defaults";
+import {
+  clientEntryBootstrapModules,
+  importMapDefaults,
+} from "@fika-ts/framework/runtime-defaults";
 import { makeFikaMiddleware } from "@fika-ts/framework/storage.server";
 import { Hono } from "hono";
 import { routes } from "./routes.gen";
+
 let app = new Hono();
 
 app.use(
@@ -14,7 +18,7 @@ app.use(
         ...importMapDefaults,
       },
     },
-    bootstrapModules: ["/routes.gen.js", "/entry.client.js"],
+    bootstrapModules: clientEntryBootstrapModules,
   }),
 );
 

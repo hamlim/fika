@@ -6,3 +6,9 @@ export let importMapDefaults: Record<string, string> = {
   // Special generated file during builds
   "#framework/storage": "/storage.client.js",
 };
+
+// Files are generated during builds by @fika-ts/tools
+export let clientEntryBootstrapModules: Array<string> = [
+  "/routes.gen.js",
+  "/entry.client.js",
+];
