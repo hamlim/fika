@@ -1,22 +1,25 @@
 {
-  "name": "template-library",
+  "name": "@fika-ts/tools",
   "version": "0.0.1",
   "description": "TODO",
   "homepage": "TODO",
   "author": {
-    "name": "TODO",
-    "email": "TODO"
+    "name": "Matt Hamlin",
+    "email": "matthewjameshamlin@gmail.com"
   },
   "repository": {
     "type": "git",
-    "url": "TODO",
-    "directory": "packages/template-library"
+    "url": "https://github.com/hamlim/fika",
+    "directory": "packages/fika-tools"
   },
   "exports": {
     ".": {
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
     }
+  },
+  "bin": {
+    "fika": "./cli.mjs"
   },
   "files": ["dist", "CHANGELOG.md", "README.md"],
   "type": "module",

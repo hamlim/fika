@@ -4,7 +4,7 @@ import { renderToReadableStream } from "react-dom/server.browser";
 import type { APIHandler, Page } from "./router";
 import { getStore } from "./storage.server";
 
-export async function handler(context: Context) {
+export async function handler(context: Context): Promise<Response> {
   let { route, routes, request, importMap, bootstrapModules } = getStore();
 
   if (!route) {
