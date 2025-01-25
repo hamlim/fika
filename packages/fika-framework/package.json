@@ -1,0 +1,68 @@
+{
+  "name": "@fika-ts/framework",
+  "version": "0.0.1",
+  "description": "TODO",
+  "homepage": "TODO",
+  "author": {
+    "name": "Matt Hamlin",
+    "email": "matthewjameshamlin@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hamlim/fika",
+    "directory": "packages/fika-framework"
+  },
+  "exports": {
+    "./router": {
+      "import": "./dist/router.js",
+      "types": "./dist/router.d.ts"
+    },
+    "./storage.client": {
+      "import": "./dist/storage.client.js",
+      "types": "./dist/storage.client.d.ts"
+    },
+    "./storage.server": {
+      "import": "./dist/storage.server.js",
+      "types": "./dist/storage.server.d.ts"
+    },
+    "./shared-types": {
+      "import": "./dist/shared-types.js",
+      "types": "./dist/shared-types.d.ts"
+    },
+    "./handler.server": {
+      "import": "./dist/handler.server.js",
+      "types": "./dist/handler.server.d.ts"
+    },
+    "./entry.client": {
+      "import": "./dist/entry.client.js",
+      "types": "./dist/entry.client.d.ts"
+    }
+  },
+  "files": ["dist", "CHANGELOG.md", "README.md"],
+  "type": "module",
+  "devDependencies": {
+    "@swc/cli": "0.3.10",
+    "@swc/core": "1.4.2",
+    "hohoro": "0.3.0",
+    "@types/react-dom": "19.0.3",
+    "@types/bun": "1.1.11",
+    "typescript": "5.4.5",
+    "hono": "4.6.18",
+    "react": "0.0.0-experimental-de1eaa26-20250124",
+    "react-dom": "0.0.0-experimental-de1eaa26-20250124"
+  },
+  "peerDependencies": {
+    "hono": "^4.6.18",
+    "react": "*",
+    "react-dom": "*"
+  },
+  "scripts": {
+    "dev": "node --watch-path=./src dev.mjs",
+    "build": "hohoro-experimental",
+    "type-check": "tsc -p ./tsconfig.json",
+    "lint": "biome lint ./src/",
+    "test": "bun test",
+    "prepub": "bun run build && bun run type-check && bun run lint && bun run test",
+    "pub": "npm publish --access public"
+  }
+}
