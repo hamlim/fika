@@ -17,7 +17,6 @@ export async function handler(context: Context): Promise<Response> {
     // SSR
 
     let scriptContent = [
-      `globalThis.__fika_routes = ${JSON.stringify(routes)};`,
       `globalThis.__fika_import_map = ${JSON.stringify(importMap)};`,
       `globalThis.__fika_bootstrap_modules = ${JSON.stringify(bootstrapModules)};`,
     ].join("");

@@ -181,6 +181,9 @@ export async function generate(options: {
   }
   contents.push(`];`);
 
+  contents.push(``);
+  contents.push(`globalThis.__fika_routes = routes;`);
+
   await writeFile(clientDestinationDir, contents.join("\n"));
 
   console.log("Wrote routes.gen.ts");
@@ -210,13 +213,8 @@ export async function build(options: {
         await mkdir(distDir, { recursive: true });
       } catch {}
     }
-    // if (srcPath.replace(extname(srcPath), "") === "entry.client") {
-    //   console.log("Building client entry");
-
-    // } else {
     let { code } = oxc.transform(srcPath, await readFile(srcPath, "utf-8"));
     await writeFile(distPath, code);
-    // }
   }
 
   // client entry
@@ -229,6 +227,18 @@ export async function build(options: {
     format: "esm",
     target: "es2022",
   });
+  // framework files
+  let { code } = oxc.transform(
+    pathJoin(process.cwd(), "@fika-ts/framework/storage.client"),
+    await readFile(
+      pathJoin(process.cwd(), "@fika-ts/framework/entry.client.ts"),
+      "utf-8",
+    ),
+  );
+  await writeFile(
+    pathJoin(process.cwd(), options.outDir, "entry.client.js"),
+    code,
+  );
 }
 
 export async function run(): Promise<void> {
