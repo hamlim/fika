@@ -1,8 +1,3 @@
-```
-npm install
-npm run dev
-```
+# Fika Demo 001
 
-```
-npm run deploy
-```
+An initial demo app built using Fika!

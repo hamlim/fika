@@ -11,7 +11,7 @@ export default function IndexPage() {
       </head>
       <body>
         {/* biome-ignore lint/a11y/noDistractingElements: <explanation> */}
-        <marquee className="text-4xl">Hello World</marquee>
+        <marquee className="text-4xl">Hello There</marquee>
       </body>
     </html>
   );

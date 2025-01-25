@@ -15,6 +15,18 @@ export let routes: Array<[string, Route]> = [
     }
   ],
   [
+    "/api/saves",
+    {
+      routeType: "static",
+      rawPath: "/api/saves",
+      filePath: "/api/saves.route.js",
+      type: "api",
+      params: [],
+      $type: "custom",
+      mod: () => import("./api/saves.route.js")
+    }
+  ],
+  [
     "/api/greet",
     {
       routeType: "static",
