@@ -4,7 +4,7 @@ import { Hono } from "hono";
 
 import { handler } from "../handler.server";
 import type { Route } from "../router";
-import { makeStorageMiddleware } from "../storage.server";
+import { makeFikaMiddleware } from "../storage.server";
 
 function GreetingPage() {
   return <div>Hello</div>;
@@ -73,7 +73,7 @@ let importMap = {
 test("fika-framework - page", async () => {
   let app = new Hono();
   app.use(
-    makeStorageMiddleware({
+    makeFikaMiddleware({
       routes,
       importMap,
       bootstrapModules: ["./entry.client.js"],
@@ -89,7 +89,7 @@ test("fika-framework - page", async () => {
 test("fika-framework - api handler", async () => {
   let app = new Hono();
   app.use(
-    makeStorageMiddleware({
+    makeFikaMiddleware({
       routes,
       importMap,
       bootstrapModules: ["./entry.client.js"],
@@ -105,7 +105,7 @@ test("fika-framework - api handler", async () => {
 test("fika-framework - not found", async () => {
   let app = new Hono();
   app.use(
-    makeStorageMiddleware({
+    makeFikaMiddleware({
       routes,
       importMap,
       bootstrapModules: ["./entry.client.js"],

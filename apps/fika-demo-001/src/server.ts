@@ -1,12 +1,12 @@
 import { handler } from "@fika-ts/framework/handler.server";
-import { makeStorageMiddleware } from "@fika-ts/framework/storage.server";
+import { makeFikaMiddleware } from "@fika-ts/framework/storage.server";
 import { Hono } from "hono";
 import { routes } from "./routes.gen";
 
 let app = new Hono();
 
 app.use(
-  makeStorageMiddleware({
+  makeFikaMiddleware({
     routes,
     importMap: {
       imports: {

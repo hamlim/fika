@@ -20,7 +20,7 @@ export function getStore(): Store {
   return store;
 }
 
-export function makeStorageMiddleware({
+export function makeFikaMiddleware({
   routes,
   importMap,
   bootstrapModules,
