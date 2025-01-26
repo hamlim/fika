@@ -24,7 +24,7 @@ for (let i = 2; i < process.argv.length; i++) {
 }
 
 if (args.help) {
-  console.log(`Usage: fika --projectRoot=<path> --outDir=<path>`);
+  console.log(`Usage: fika --projectRoot=<path> --outDir=<path> --debug`);
   process.exit(0);
 }
 
@@ -51,4 +51,4 @@ if (status > 0) {
 let projectRoot = args.projectRoot;
 let outDir = args.outDir;
 
-run({ projectRoot, outDir }).catch(console.error);
+run({ projectRoot, outDir, debug: args.debug }).catch(console.error);

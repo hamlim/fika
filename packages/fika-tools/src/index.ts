@@ -47,6 +47,14 @@ function getRouteType(filePath: string): "api" | "page" {
     : "page";
 }
 
+function makeLogger(debug: boolean): (...args: any[]) => void {
+  return (...args: any[]): void => {
+    if (debug) {
+      console.log(...args);
+    }
+  };
+}
+
 type PartialRoute = Omit<Route, "mod">;
 
 export function collectRoutes({
@@ -145,7 +153,10 @@ export function collectRoutes({
 export async function generate(options: {
   rootDir: string;
   outDir: string;
+  debug: boolean;
 }): Promise<Array<[string, PartialRoute]>> {
+  let logger = makeLogger(options.debug);
+
   let clientDestinationDir = pathJoin(
     process.cwd(),
     options.rootDir,
@@ -157,7 +168,7 @@ export async function generate(options: {
   );
 
   let routeManifest = collectRoutes({ routeFiles, rootDir: options.rootDir });
-  console.log("Collected routes, writing manifest...");
+  logger("Collected routes, writing manifest...");
 
   // Currently, the router is "greedy", and will take the first match
   // it finds, meaning it can sometimes accidentally match
@@ -207,7 +218,7 @@ export async function generate(options: {
   contents.push(``);
   await writeFile(clientDestinationDir, contents.join("\n"));
 
-  console.log("Wrote routes.gen.ts");
+  logger("Wrote routes.gen.ts");
 
   return Array.from(routeManifest.entries());
 }
@@ -263,17 +274,16 @@ export async function build(options: {
 export async function run({
   projectRoot,
   outDir,
+  debug = false,
 }: {
   projectRoot: string;
   outDir: string;
+  debug?: boolean;
 }): Promise<void> {
-  try {
-    await rm(pathJoin(process.cwd(), outDir), { recursive: true });
-  } catch {}
-
+  let logger = makeLogger(debug);
   await mkdir(outDir, { recursive: true });
 
-  let routes = await generate({ rootDir: projectRoot, outDir });
+  let routes = await generate({ rootDir: projectRoot, outDir, debug });
 
   await build({
     rootDir: projectRoot,
@@ -281,5 +291,5 @@ export async function run({
     routes,
   });
 
-  console.log("Done");
+  logger("Done");
 }
