@@ -1,14 +1,14 @@
-# `fika-framework`
+# `@fika-ts/framework`
 
-TODO
+A neat new framework thingy.
 
 ## Getting Started:
 
 ```bash
-bun add fika-framework
+bun add @fika-ts/framework
 ```
 
-...
+TODO
 
 ## Contributing:
 

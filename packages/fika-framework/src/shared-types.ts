@@ -1,7 +1,7 @@
 import type { MatchedRoute, Route, Router } from "./router";
 
 // @TODO: This is a placeholder type.
-type Context = {};
+type Context = Record<string, any>;
 
 export type Store = {
   request: Request;

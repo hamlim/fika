@@ -21,7 +21,7 @@
   "bin": {
     "fika": "./cli.mjs"
   },
-  "files": ["dist", "CHANGELOG.md", "README.md"],
+  "files": ["dist", "CHANGELOG.md", "README.md", "./cli.mjs"],
   "type": "module",
   "devDependencies": {
     "@swc/cli": "0.3.10",
