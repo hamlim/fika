@@ -51,7 +51,7 @@
     "@types/react-dom": "19.0.3",
     "@types/bun": "1.1.11",
     "typescript": "5.4.5",
-    "hono": "4.6.18",
+    "hono": "4.10.3",
     "react": "0.0.0-experimental-de1eaa26-20250124",
     "react-dom": "0.0.0-experimental-de1eaa26-20250124"
   },
