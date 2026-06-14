@@ -31,7 +31,7 @@
     "typescript": "5.4.5"
   },
   "dependencies": {
-    "esbuild": "0.25.0",
+    "esbuild": "0.28.1",
     "oxc-transform": "0.48.0",
     "fast-glob": "3.3.3"
   },
